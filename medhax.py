@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request
+from flask import Flask,render_template,request, redirect
 from twilio.rest import Client
 from twilio.twiml.messaging_response import MessagingResponse,Message
 import dbUtils as dbutils
@@ -11,10 +11,15 @@ authtoken = "fba3f82a812fc559b22dd979c7351b9c"
 client = Client(sid, authtoken)
 statetabledict = {}
 
+def __messagefirstresponder__(victimnumber,firstresponder):
+        firstrespondernumber = firstresponder[1]['phone'] 
+        mapsurl = 'https://www.google.com/maps/dir/?api=1&destination='+ str(firstresponder[1]['location']['lat']) + "," + str(firstresponder[1]['location']['lng'])
+        message = client.messages.create(to=str(firstrespondernumber), from_="+18722282071",
+                                     body=statetabledict[victimnumber]['name'] +" needs help "+ str(str(firstresponder[0])  + " miles away " + " at " + mapsurl))
 def checkPhone(phone):
     phonenum = []
     for c in phone:
-        if c.isdigit():
+        if c.isdigit() or c == '+':
             phonenum.append(c)
     return ''.join(phonenum)
 
@@ -36,8 +41,11 @@ def submitVictim():
         victiminfo['name'] = name
         victiminfo['phone'] = checkPhone(phone)
         victiminfo['location'] = gmaps.geocode(location)[0]['geometry']['location']
-        dbUtils.addVictim(victiminfo)
-        return "Done"
+        number = victiminfo['phone']
+        statetabledict[victiminfo['phone']] = victiminfo 
+        firstrespondertuple = dbutils.addVictim(statetabledict[number])
+        __messagefirstresponder__(victiminfo['phone'],firstrespondertuple)
+        return redirect('/')
 
 @app.route('/rescuer')
 def rescuer():
@@ -54,7 +62,8 @@ def submitRescuer():
         responderinfo['name'] = name
         responderinfo['phone'] = checkPhone(phone)
         responderinfo['location'] = gmaps.geocode(location)[0]['geometry']['location']
-        return "done"
+        dbutils.addResponder(responderinfo)
+        return redirect('/')
 
 @app.route('/sms', methods=['POST'])
 def sms():
@@ -126,11 +135,6 @@ def __address__(request_obj):
     statetabledict[number]['state'] = 'init'
     return message
 
-def __messagefirstresponder__(victimnumber,firstresponder):
-        firstrespondernumber = firstresponder[1]['phone'] 
-        mapsurl = 'https://www.google.com/maps/dir/?api=1&destination='+ str(firstresponder[1]['location']['lat']) + "," + str(firstresponder[1]['location']['lng'])
-        message = client.messages.create(to=str(firstrespondernumber), from_="+18722282071",
-                                     body=statetabledict[victimnumber]['name'] +" needs help "+ str(str(firstresponder[0])  + " miles away " + " at " + mapsurl))
         
         #text directions
 def __respondtoinit__(request_obj):
