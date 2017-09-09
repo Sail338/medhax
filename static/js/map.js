@@ -5,7 +5,6 @@ function initMap() {
     center: {lat: 29.4700179, lng: -81.4759017}
     });
     return map
-    setMarkers(map);
 }
 
 function setMarkers(map) {
@@ -33,6 +32,6 @@ function setMarkers(map) {
     }
 	};
 }
-var map = initMap
+var map = initMap()
 var func = setMarkers(map)
 setInterval(func, 5000);
