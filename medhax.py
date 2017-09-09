@@ -22,12 +22,14 @@ def checkPhone(phone):
 def index():
     return render_template('home.html')
 
-
-@app.route('/victim', methods=['POST','GET'])
+@app.route('/victim')
 def victim():
+    return render_template('victim.html')
+
+@app.route('/submitVictim', methods=['POST'])
+def submitVictim():
     if request.method == 'POST':
         name = request.form['name']
-        print(name)
         phone = request.form['phone']
         location = request.form['location']
         victiminfo = {}
@@ -36,13 +38,13 @@ def victim():
         victiminfo['location'] = gmaps.geocode(location)[0]['geometry']['location']
         dbUtils.addVictim(victiminfo)
         return "Done"
-    else:
-        
-        return render_template('victim.html')
 
-
-@app.route('/rescuer', methods=['POST','GET'])
+@app.route('/rescuer')
 def rescuer():
+    return render_template('rescuer.html')
+
+@app.route('/submitRescuer', methods=['POST'])
+def submitRescuer():
     if request.method == 'POST':
         name = request.form['name']
         phone = request.form['phone']
@@ -53,7 +55,6 @@ def rescuer():
         responderinfo['phone'] = checkPhone(phone)
         responderinfo['location'] = gmaps.geocode(location)[0]['geometry']['location']
         return "done"
-    return render_template('rescuer.html')
 
 @app.route('/sms', methods=['POST'])
 def sms():
