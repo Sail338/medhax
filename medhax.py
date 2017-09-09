@@ -24,6 +24,14 @@ def sms():
     elif statetabledict[number] == 'waiting for address':
         print("state is waiting for address")
         __address__(request.form)
+        statetabledict[(str(number))] = 'RESCUE'
+    if("RESCUE" in message_body and statetabledict[number] == 'RESCUE'):
+        __help__(request.form)
+    if statetabledict[number] == 'waiting for address':
+        #parse message bodt
+        #request address
+        #parse the address and send back someone will be there asap and insert into the db
+
     return "done"
 
 
@@ -33,6 +41,7 @@ def __help__(request_obj):
     print("calling help") 
     message = client.messages.create(to=str(number), from_="+18722282071",
                                  body="Please send aprox location")
+    message = client.messages.create(to=str(number), from_="+18722282071", body="Please send an approx address")
     statetabledict[number] = 'waiting for address'
     return str(message)
 
