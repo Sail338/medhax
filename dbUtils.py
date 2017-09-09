@@ -55,6 +55,11 @@ def getResponderLocations():
         responderLoc.append( loc )
     return responderLoc
 
+def addPerson( name, lat, lng, phone, isVictim ):   #requires boolean isVictim to be true for victim insert and false for responder insert
+    if isVictim:
+        df.victims.insert_one({"name": name, "location": {"lat": lat, "lng": lng}, "phone": phone})
+    else:
+        df.firstResponders.insert_one({"name": name, "location": {"lat": lat, "lng": lng}, "phone": phone})
 
 def addTestResponder( name, location, phone ):
     lat = location[0]
