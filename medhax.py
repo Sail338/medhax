@@ -14,14 +14,18 @@ statetabledict = {}
 def __messagefirstresponder__(victimnumber,firstresponder):
         firstrespondernumber = firstresponder[1]['phone'] 
         mapsurl = 'https://www.google.com/maps/dir/?api=1&destination='+ str(firstresponder[1]['location']['lat']) + "," + str(firstresponder[1]['location']['lng'])
-        message = client.messages.create(to=str(firstrespondernumber), from_="+18722282071",
-                                     body=statetabledict[victimnumber]['name'] +" needs help "+ str(str(firstresponder[0])  + " miles away " + " at " + mapsurl))
+        message = client.messages.create(to=str(firstrespondernumber), from_="+18722282071", body=statetabledict[victimnumber]['name'] +" needs help "+ str(round(firstresponder[0],2))  + " miles away " + "at " + mapsurl)
+
 def checkPhone(phone):
     phonenum = []
     for c in phone:
         if c.isdigit() or c == '+':
             phonenum.append(c)
     return ''.join(phonenum)
+
+@app.route('/getAllVictims', methods=['GET'])
+def getAllVictims():
+    return dbutils.getVictimLocations()
 
 @app.route('/')
 def index():
@@ -141,7 +145,7 @@ def __respondtoinit__(request_obj):
         
         number = request_obj['From']
         message = client.messages.create(to=str(number), from_="+18722282071",
-                                     body="Hi! Thanks for you interest in being a first responder. Please send your name. ")
+                                     body="Hi! Thanks for you interest in being a first responder. Please send your name.")
         statetabledict[number]['state'] = 'waiting for name fr'
 
 def __respondtoname__(request_obj):
