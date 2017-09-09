@@ -41,7 +41,7 @@ def findNearestResponder( victimDictionary ):
 
     return closestResponder
 
-def addResponder( name, location, phone ):
+def addTestResponder( name, location, phone ):
     lat = location[0]
     lng = location[1]
 
@@ -50,4 +50,4 @@ def addResponder( name, location, phone ):
 name = "Ranga"
 loc = (10, 50)
 phone = 7329978242
-addResponder(name, loc, phone)
+addTestResponder(name, loc, phone)
