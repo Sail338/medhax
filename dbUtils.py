@@ -24,7 +24,8 @@ def addVictim( victimDictionary ):  #adds victim to db and then retuns tuple of 
         return
     if "phone" not in victimDictionary:
         return
-    db.victims.insert_one(victimDictionary)
+    if
+    db.victims.update_one(victimDictionary, upsert = True)
     return findNearestResponder(victimDictionary)
 
 def findNearestResponder( victimDictionary ):
