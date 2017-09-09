@@ -40,11 +40,11 @@
       <form class="form-signup" action="/submitRescuer" method="POST">
         <h2 class="form-signup-heading">Register as Rescuer</h2>
         <label for="phone" class="sr-only">Name</label>
-        <input type="text" id="name" class="form-control" placeholder="Name" required autofocus>
+        <input type="text" id="name" name="name" class="form-control" placeholder="Name" required autofocus>
         <label for="phone" class="sr-only">Phone Number</label>
-        <input type="text" id="phone" class="form-control" placeholder="Phone Number" required autofocus>
+        <input type="text" id="phone" name="phone" class="form-control" placeholder="Phone Number" required autofocus>
         <label for="location" class="sr-only">Location</label>
-        <input type="text" id="location" class="form-control" placeholder="Location" required>
+        <input type="text" id="location" name="location" class="form-control" placeholder="Location" required>
         <button class="btn btn-sm btn-default btn-block" value="getLocation"> Auto-fill current location</button>
         <button class="btn btn-lg btn-success btn-block" type="submit">Submit</button>
       </form>
