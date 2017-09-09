@@ -28,9 +28,9 @@ function setMarkers(map) {
             shape: shape,
             title: "test",
             zIndex: 1
-      });
+        });
     }
-	});
+	};
 }
 
-setInterval(initMap, 5000);
+setInterval(initMap(), 5000);
