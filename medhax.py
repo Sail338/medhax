@@ -86,7 +86,7 @@ def __help__(request_obj):
     
     print("calling help") 
     message = client.messages.create(to=str(number), from_="+18722282071",
-                                 body="Please send your name")
+                                 body="Please send your name.")
     statetabledict[number]['state'] = 'waiting for namevictime'
     return str(message)
 def __grabName__(request_obj):
@@ -94,7 +94,7 @@ def __grabName__(request_obj):
     number = request_obj['From']
     name = body
 
-    message = client.messages.create(to=str(number), from_="+18722282071",body="Hi " + str(name) + " please send your approx location")
+    message = client.messages.create(to=str(number), from_="+18722282071",body="Hi " + str(name) + ", please send your approx location")
 
     statetabledict[number]['state'] = 'waiting for address'
     statetabledict[number]['name'] = name
@@ -107,7 +107,7 @@ def __address__(request_obj):
     number = request_obj['From']
     
     message = client.messages.create(to=str(number), from_="+18722282071",
-                                 body="Stay where you are someone will be there shortly")
+                                 body="Stay where you are. Someone will be there shortly.")
     bod = request_obj['Body']
     geocode_rest = gmaps.geocode(str(bod))
 
@@ -133,14 +133,14 @@ def __respondtoinit__(request_obj):
         
         number = request_obj['From']
         message = client.messages.create(to=str(number), from_="+18722282071",
-                                     body="Hi! thanks for you interest in being a first responder, please send your name ")
+                                     body="Hi! Thanks for you interest in being a first responder. Please send your name. ")
         statetabledict[number]['state'] = 'waiting for name fr'
 
 def __respondtoname__(request_obj):
         number = request_obj['From']
         name = request_obj['Body']
         message = client.messages.create(to=str(number), from_="+18722282071",
-                                     body="Hi "  + name + " " + "please send your approx location to begin helping people")
+                                     body="Hi "  + name + ", please send your approximate location to begin helping people.")
         statetabledict[number]['name'] = name
         statetabledict[number]['state']= 'waiting for address fr'
 def __firestresponderaddress__(request_obj):
