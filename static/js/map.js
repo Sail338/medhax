@@ -4,10 +4,10 @@ function initMap() {
     zoom: 10,
     center: {lat: 29.4700179, lng: -81.4759017}
     });
-
+    return map
     setMarkers(map);
 }
-        
+
 function setMarkers(map) {
     $.get("{{url_for('getAllVictims')}}"), function(data, status){
 
@@ -33,6 +33,6 @@ function setMarkers(map) {
     }
 	};
 }
-
-var func = initMap
+var map = initMap
+var func = setMarkers(map)
 setInterval(func, 5000);
