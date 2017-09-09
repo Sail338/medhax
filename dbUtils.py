@@ -50,4 +50,4 @@ def addTestResponder( name, location, phone ):
 name = "Ranga"
 loc = (10, 50)
 phone = 7329978242
-addTestResponder(name, loc, phone)
+#addTestResponder(name, loc, phone)
