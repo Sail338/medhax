@@ -27,6 +27,9 @@ def sms():
         statetabledict[(str(number))] = 'RESCUE'
     if("RESCUE" in message_body and statetabledict[number] == 'RESCUE'):
         __help__(request.form)
+        statetabledict[(str(number))] = 'RESCUE'
+    if("RESCUE" in message_body and statetabledict[number] == 'RESCUE'):
+        __help__(request.form)
     if statetabledict[number] == 'waiting for address':
         #parse message bodt
         #request address
