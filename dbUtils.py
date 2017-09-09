@@ -15,7 +15,7 @@ def addResponder( responderDictionary ):
         return
     if "phone" not in responderDictionary:
         return
-    db.firstResponders.insert_one(responderDictionary)
+    db.firstResponders.update_one(responderDictionary, upsert = True)
 
 def addVictim( victimDictionary ):  #adds victim to db and then retuns tuple of the distance to the nearest responder and their name
     if "name" not in victimDictionary:
