@@ -119,6 +119,7 @@ def __address__(request_obj):
     #insert into the database
     firstrespondertuple = dbutils.addVictim(statetabledict[number])
     __messagefirstresponder__(number,firstrespondertuple)
+    statetabledict[number]['state'] = 'init'
     return message
 
 def __messagefirstresponder__(victimnumber,firstresponder):
@@ -126,6 +127,7 @@ def __messagefirstresponder__(victimnumber,firstresponder):
         mapsurl = 'https://www.google.com/maps/dir/?api=1&destination='+ str(firstresponder[1]['location']['lat']) + "," + str(firstresponder[1]['location']['lng'])
         message = client.messages.create(to=str(firstrespondernumber), from_="+18722282071",
                                      body=statetabledict[victimnumber]['name'] +" needs help "+ str(str(firstresponder[0])  + " miles away " + " at " + mapsurl))
+        
         #text directions
 def __respondtoinit__(request_obj):
         
