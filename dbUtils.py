@@ -9,20 +9,20 @@ db.firstResponders
 db.victims
 
 def addResponder( responderDictionary ):
-    if not responderDictionary.has_key("name"):
+    if "name" not in responderDictionary:
         return
-    if not responderDictionary.has_key("location"):
+    if "location" not in responderDictionary:
         return
-    if not responderDictionary.has_key("phone"):
+    if "phone" not in responderDictionary:
         return
     db.firstResponders.insert_one(responderDictionary)
 
 def addVictim( victimDictionary ):  #adds victim to db and then retuns tuple of the distance to the nearest responder and their name
-    if not victimDictionary.has_key("name"):
+    if "name" not in victimDictionary:
         return
-    if not victimDictionary.has_key("location"):
+    if "location" not in victimDictionary:
         return
-    if not victimDictionary.has_key("phone"):
+    if "phone" not in victimDictionary:
         return
     db.victims.insert_one(victimDictionary)
     return findNearestResponder(victimDictionary)
