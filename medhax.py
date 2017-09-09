@@ -81,9 +81,25 @@ def __address__(request_obj):
                                  body="Stay where you are someone will be there shortly")
     bod = request_obj['Body']
     geocode_rest = gmaps.geocode(str(bod))
+
     print(geocode_rest[0]['geometry'])
+    statetabledict[number]['address'] = geocode_rest[0]['formatted_address']
+    statetabledict[number]['location'] = geocode_rest[0]['geometry']['location']
     #insert into the database
     return message
+
+def __messagefirstresponder__(victimnumber,firstresponder):
+    firstrespondernumber = firstresponder[1]['phone'] 
+    mapsurl = 'https://www.google.com/maps/dir/?api=1&destination='+ str(firstresponder[1]['location']['lat']) + "," + str(firstresponder[1]['location']['lng'])
+    message = client.messages.create(to=str(firstrespondernumber), from_="+18722282071",
+                                 body=statetabledict[victimnumber]['name'] +" needs help "+ str(firstresponder[0]  + " miles away " + " at " + mapsurl)
+    #text directions
+    
+    
+
+
+
+    
 
 if __name__ == "__main__":
     app.run(debug=True)
