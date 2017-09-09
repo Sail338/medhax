@@ -10,6 +10,14 @@ sid = "AC8632c0885d33bcf38b8eaa6cc6a33f87"
 authtoken = "fba3f82a812fc559b22dd979c7351b9c"
 client = Client(sid, authtoken)
 statetabledict = {}
+
+def checkPhone(phone):
+    phonenum = []
+    for c in phone:
+        if c.isdigit():
+            phonenum.append(c)
+    return ''.join(phonenum)
+
 @app.route('/')
 def index():
     return render_template('home.html')
@@ -23,6 +31,12 @@ def registerVictim():
     name = request.form['name']
     phone = request.form['phone']
     location = request.form['location']
+    victiminfo = {}
+    victiminfo['name'] = name
+    victiminfo['phone'] = checkPhone(phone)
+    victiminfo['location'] = gmaps.geocode(location)[0]['geometry']['location']
+    dbUtils.addVictim(victiminfo)
+
 
 @app.route('/rescuer')
 def rescuer():
@@ -33,7 +47,11 @@ def registerRescuer():
     name = request.form['name']
     phone = request.form['phone']
     location = request.form['location']
-
+    
+    responderinfo = {}
+    responderinfo['name'] = name
+    responderinfo['phone'] = checkPhone(phone)
+    responderinfo['location'] = gmaps.geocode(location)[0]['geometry']['location']
 @app.route('/sms', methods=['POST'])
 def sms():
     print (request.form)
