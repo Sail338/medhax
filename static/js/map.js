@@ -1,5 +1,6 @@
 function initMap() {
-    var map = new google.maps.Map(document.getElementById('map'), {
+    var map = new google.maps.Map(document.getElementById('map'),
+    {
     zoom: 10,
     center: {lat: 29.4700179, lng: -81.4759017}
     });
@@ -33,4 +34,5 @@ function setMarkers(map) {
 	};
 }
 
-setInterval(initMap(), 5000);
+var func = initMap
+setInterval(func, 5000);
