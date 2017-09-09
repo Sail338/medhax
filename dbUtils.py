@@ -28,7 +28,7 @@ def addVictim( victimDictionary ):  #adds victim to db and then retuns tuple of 
     return findNearestResponder(victimDictionary)
 
 def findNearestResponder( victimDictionary ):
-    loc = victimDictionary["location"]
+    loc = (victimDictionary["location"]["lat"], victimDictionary["locatoin"]["lng"])
     closestResponder = ()
 
     for item in db.firstResponders.find():
