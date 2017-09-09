@@ -107,7 +107,7 @@ def __messagefirstresponder__(victimnumber,firstresponder):
         firstrespondernumber = firstresponder[1]['phone'] 
         mapsurl = 'https://www.google.com/maps/dir/?api=1&destination='+ str(firstresponder[1]['location']['lat']) + "," + str(firstresponder[1]['location']['lng'])
         message = client.messages.create(to=str(firstrespondernumber), from_="+18722282071",
-                                     body=statetabledict[victimnumber]['name'] +" needs help "+ str(firstresponder[0]  + " miles away " + " at " + mapsurl))
+                                     body=statetabledict[victimnumber]['name'] +" needs help "+ str(str(firstresponder[0])  + " miles away " + " at " + mapsurl))
         #text directions
 def __respondtoinit__(request_obj):
         
@@ -134,6 +134,11 @@ def __firestresponderaddress__(request_obj):
         print(geocode_rest[0]['geometry'])
         statetabledict[number]['address'] = geocode_rest[0]['formatted_address']
         statetabledict[number]['location'] = geocode_rest[0]['geometry']['location']
+
+        statetabledict[number]['location']['lat'] = float(statetabledict[number]['location']['lat'])
+        print ( statetabledict[number]['location']['lat'])
+
+        statetabledict[number]['location']['lng'] = float(statetabledict[number]['location']['lng'])
         dbutils.addResponder(statetabledict[number]) 
 
 
