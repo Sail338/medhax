@@ -22,36 +22,39 @@ def checkPhone(phone):
 def index():
     return render_template('home.html')
 
-@app.route('/victim')
+
+@app.route('/victim', methods=['POST','GET'])
 def victim():
-    return render_template('victim.html')
+    if request.method == 'POST':
+        name = request.form['name']
+        print(name)
+        phone = request.form['phone']
+        location = request.form['location']
+        victiminfo = {}
+        victiminfo['name'] = name
+        victiminfo['phone'] = checkPhone(phone)
+        victiminfo['location'] = gmaps.geocode(location)[0]['geometry']['location']
+        dbUtils.addVictim(victiminfo)
+        return "Done"
+    else:
+        
+        return render_template('victim.html')
 
-@app.route('/victim', methods=['POST'])
-def registerVictim():
-    name = request.form['name']
-    phone = request.form['phone']
-    location = request.form['location']
-    victiminfo = {}
-    victiminfo['name'] = name
-    victiminfo['phone'] = checkPhone(phone)
-    victiminfo['location'] = gmaps.geocode(location)[0]['geometry']['location']
-    dbUtils.addVictim(victiminfo)
 
-
-@app.route('/rescuer')
+@app.route('/rescuer', methods=['POST','GET'])
 def rescuer():
+    if request.method == 'POST':
+        name = request.form['name']
+        phone = request.form['phone']
+        location = request.form['location']
+        
+        responderinfo = {}
+        responderinfo['name'] = name
+        responderinfo['phone'] = checkPhone(phone)
+        responderinfo['location'] = gmaps.geocode(location)[0]['geometry']['location']
+        return "done"
     return render_template('rescuer.html')
 
-@app.route('/rescuer', methods=['POST'])
-def registerRescuer():
-    name = request.form['name']
-    phone = request.form['phone']
-    location = request.form['location']
-    
-    responderinfo = {}
-    responderinfo['name'] = name
-    responderinfo['phone'] = checkPhone(phone)
-    responderinfo['location'] = gmaps.geocode(location)[0]['geometry']['location']
 @app.route('/sms', methods=['POST'])
 def sms():
     print (request.form)
