@@ -76,7 +76,8 @@ def __grabName__(request_obj):
     number = request_obj['From']
     name = body
 
-    message = client.messages.create(to=str(number), from_="+18722282071", body="Hi " + str(name) + ", please send your approx location")
+    message = client.messages.create(to=str(number), from_="+18722282071",body="Hi " + str(name) + " please send your approx location")
+
     statetabledict[number]['state'] = 'waiting for address'
     statetabledict[number]['name'] = name
     statetabledict[number]['phone'] = number
@@ -87,52 +88,56 @@ def __address__(request_obj):
     #insert into the database
     number = request_obj['From']
     
-    message = client.messages.create(to=str(number), from_="+18722282071", body="Stay where you are. Someone will be there shortly.")
+    message = client.messages.create(to=str(number), from_="+18722282071",
+                                 body="Stay where you are someone will be there shortly")
     bod = request_obj['Body']
     geocode_rest = gmaps.geocode(str(bod))
 
     print(geocode_rest[0]['geometry'])
     statetabledict[number]['address'] = geocode_rest[0]['formatted_address']
     statetabledict[number]['location'] = geocode_rest[0]['geometry']['location']
+    statetabledict[number]['location']['lat'] = float(statetabledict[number]['location']['lat'])
+    statetabledict[number]['location']['lng'] = float(statetabledict[number]['location']['lng'])
     #insert into the database
-    firstrespondertuple = dbutils.addResponder(statetabledict[number])
+    firstrespondertuple = dbutils.addVictim(statetabledict[number])
     __messagefirstresponder__(number,firstrespondertuple)
     return message
 
 def __messagefirstresponder__(victimnumber,firstresponder):
-    firstrespondernumber = firstresponder[1]['phone'] 
-    mapsurl = 'https://www.google.com/maps/dir/?api=1&destination='+ str(firstresponder[1]['location']['lat']) + "," + str(firstresponder[1]['location']['lng'])
-    message = client.messages.create(to=str(firstrespondernumber), from_="+18722282071", body=statetabledict[victimnumber]['name'] +" needs help "+ str(firstresponder[0]  + " miles away " + " at " + mapsurl))
-    #text directions
+        firstrespondernumber = firstresponder[1]['phone'] 
+        mapsurl = 'https://www.google.com/maps/dir/?api=1&destination='+ str(firstresponder[1]['location']['lat']) + "," + str(firstresponder[1]['location']['lng'])
+        message = client.messages.create(to=str(firstrespondernumber), from_="+18722282071",
+                                     body=statetabledict[victimnumber]['name'] +" needs help "+ str(firstresponder[0]  + " miles away " + " at " + mapsurl))
+        #text directions
 def __respondtoinit__(request_obj):
-    
-    number = request_obj['From']
-    message = client.messages.create(to=str(number), from_="+18722282071",
-                                 body="Hi! thanks for you interest in being a first responder, please send your name ")
-    statetabledict[number]['state'] = 'waiting for name fr'
+        
+        number = request_obj['From']
+        message = client.messages.create(to=str(number), from_="+18722282071",
+                                     body="Hi! thanks for you interest in being a first responder, please send your name ")
+        statetabledict[number]['state'] = 'waiting for name fr'
 
 def __respondtoname__(request_obj):
-    number = request_obj['From']
-    name = request_obj['Body']
-    message = client.messages.create(to=str(number), from_="+18722282071",
-                                 body="Hi "  + name + " " + "please send your approx location to begin helping people")
-    statetabledict[number]['name'] = name
-    statetabledict[number]['state']= 'waiting for address fr'
+        number = request_obj['From']
+        name = request_obj['Body']
+        message = client.messages.create(to=str(number), from_="+18722282071",
+                                     body="Hi "  + name + " " + "please send your approx location to begin helping people")
+        statetabledict[number]['name'] = name
+        statetabledict[number]['state']= 'waiting for address fr'
 def __firestresponderaddress__(request_obj):
-    number = request_obj['From']
-    
-    message = client.messages.create(to=str(number), from_="+18722282071",
-                                 body="Thanks for the address, you should be getting requests shortly")
-    bod = request_obj['Body']
-    geocode_rest = gmaps.geocode(str(bod))
+        number = request_obj['From']
+        
+        message = client.messages.create(to=str(number), from_="+18722282071",
+                                     body="Thanks for the address, you should be getting requests shortly")
+        bod = request_obj['Body']
+        geocode_rest = gmaps.geocode(str(bod))
 
-    print(geocode_rest[0]['geometry'])
-    statetabledict[number]['address'] = geocode_rest[0]['formatted_address']
-    statetabledict[number]['location'] = geocode_rest[0]['geometry']['location']
-    dbutils.addResponder(statetabledict[number]) 
+        print(geocode_rest[0]['geometry'])
+        statetabledict[number]['address'] = geocode_rest[0]['formatted_address']
+        statetabledict[number]['location'] = geocode_rest[0]['geometry']['location']
+        dbutils.addResponder(statetabledict[number]) 
 
 
     
 
 if __name__ == "__main__":
-    app.run(debug=True)
+   app.run(debug=True)
