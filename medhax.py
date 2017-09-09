@@ -10,9 +10,29 @@ sid = "AC8632c0885d33bcf38b8eaa6cc6a33f87"
 authtoken = "fba3f82a812fc559b22dd979c7351b9c"
 client = Client(sid, authtoken)
 statetabledict = {}
-@app.route("/")
+@app.route('/')
 def index():
     return render_template('home.html')
+
+@app.route('/victim')
+def victim():
+    return render_template('victim.html')
+
+@app.route('/victim', methods=['POST'])
+def registerVictim():
+    name = request.form['name']
+    phone = request.form['phone']
+    location = request.form['location']
+
+@app.route('/rescuer')
+def rescuer():
+    return render_template('rescuer.html')
+
+@app.route('/rescuer', methods=['POST'])
+def registerRescuer():
+    name = request.form['name']
+    phone = request.form['phone']
+    location = request.form['location']
 
 @app.route('/sms', methods=['POST'])
 def sms():
