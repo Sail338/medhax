@@ -1,6 +1,7 @@
 from flask import Flask,render_template,request
 from twilio.rest import Client
 from twilio.twiml.messaging_response import MessagingResponse,Message
+import dbUtils as dbutils
 import googlemaps
 app = Flask(__name__)
 
@@ -40,12 +41,21 @@ def sms():
     message_body = request.form['Body']
     if number not in statetabledict:
         statetabledict[(str(number))] = {}
-        statetabledict[str(number)]['state'] = 'help'
-
-    if("rescue" in message_body.lower() and statetabledict[number]['state'] == 'help'):
+        statetabledict[str(number)]['state'] = 'init'
+    
+    
+    if("rescue" in message_body.lower() and statetabledict[number]['state'] == 'init'):
         __help__(request.form)
+    elif("responder" in message_body.lower() and statetabledict[number]['state'] == 'init'):
+        statetabledict[number]['phone'] = number
+        __respondtoinit__(request.form)
+    elif statetabledict[number]['state'] == 'waiting for name fr':
+        __respondtoname__(request.form)
+    
     elif statetabledict[number]['state'] == 'waiting for namevictime':
         __grabName__(request.form)
+    elif statetabledict[number]['state'] == 'waiting for address fr':
+        __firestresponderaddress__(request.form)
     elif statetabledict[number]['state'] == 'waiting for address':
         print("state is waiting for address")
         __address__(request.form)
@@ -69,6 +79,7 @@ def __grabName__(request_obj):
     message = client.messages.create(to=str(number), from_="+18722282071", body="Hi " + str(name) + ", please send your approx location")
     statetabledict[number]['state'] = 'waiting for address'
     statetabledict[number]['name'] = name
+    statetabledict[number]['phone'] = number
     #ask for the name buddy
     return str(message)
 
@@ -84,6 +95,8 @@ def __address__(request_obj):
     statetabledict[number]['address'] = geocode_rest[0]['formatted_address']
     statetabledict[number]['location'] = geocode_rest[0]['geometry']['location']
     #insert into the database
+    firstrespondertuple = dbutils.addResponder(statetabledict[number])
+    __messagefirstresponder__(number,firstrespondertuple)
     return message
 
 def __messagefirstresponder__(victimnumber,firstresponder):
@@ -91,9 +104,32 @@ def __messagefirstresponder__(victimnumber,firstresponder):
     mapsurl = 'https://www.google.com/maps/dir/?api=1&destination='+ str(firstresponder[1]['location']['lat']) + "," + str(firstresponder[1]['location']['lng'])
     message = client.messages.create(to=str(firstrespondernumber), from_="+18722282071", body=statetabledict[victimnumber]['name'] +" needs help "+ str(firstresponder[0]  + " miles away " + " at " + mapsurl))
     #text directions
+def __respondtoinit__(request_obj):
     
-    
+    number = request_obj['From']
+    message = client.messages.create(to=str(number), from_="+18722282071",
+                                 body="Hi! thanks for you interest in being a first responder, please send your name ")
+    statetabledict[number]['state'] = 'waiting for name fr'
 
+def __respondtoname__(request_obj):
+    number = request_obj['From']
+    name = request_obj['Body']
+    message = client.messages.create(to=str(number), from_="+18722282071",
+                                 body="Hi "  + name + " " + "please send your approx location to begin helping people")
+    statetabledict[number]['name'] = name
+    statetabledict[number]['state']= 'waiting for address fr'
+def __firestresponderaddress__(request_obj):
+    number = request_obj['From']
+    
+    message = client.messages.create(to=str(number), from_="+18722282071",
+                                 body="Thanks for the address, you should be getting requests shortly")
+    bod = request_obj['Body']
+    geocode_rest = gmaps.geocode(str(bod))
+
+    print(geocode_rest[0]['geometry'])
+    statetabledict[number]['address'] = geocode_rest[0]['formatted_address']
+    statetabledict[number]['location'] = geocode_rest[0]['geometry']['location']
+    dbutils.addResponder(statetabledict[number]) 
 
 
     
