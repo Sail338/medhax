@@ -32,7 +32,7 @@ def findNearestResponder( victimDictionary ):
     closestResponder = ()
 
     for item in db.firstResponders.find():
-        responderLoc = (item["location"]["lat"], item["locatoin"]["lat"])
+        responderLoc = (item["location"]["lat"], item["location"]["lat"])
         dist = vincenty(loc, responderLoc).miles
         if not closestResponder:
             closestResponder = (dist, item)
