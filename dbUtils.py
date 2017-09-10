@@ -38,8 +38,20 @@ def findNearestResponder( victimDictionary ):
             closestResponder = (dist, item)
         elif dist < closestResponder[0]:
             closestResponder = (dist, item)
-
     return closestResponder
+
+def findNearestVictim( responderDictionary ):
+    loc = (responderDictionary["location"]["lat"], responderDictionary["location"]["lng"])
+    closestVictim = ()
+
+    for item in db.victims.find():
+        victimLoc = (item["location"]["lat"], item["location"]["lng"])
+        dist = vincenty(loc, victimLoc).miles
+        if not closestVictim:
+            closestVictim = (dist, item)
+        elif dist < closestVictim[0]:
+            closestVictim = (dist, item)
+    return closestVictim
 
 def getVictimLocations():
     victimLocations = []
@@ -57,17 +69,11 @@ def getResponderLocations():
 
 def addPerson( name, lat, lng, phone, isVictim ):   #requires boolean isVictim to be true for victim insert and false for responder insert
     if isVictim:
-        df.victims.insert_one({"name": name, "location": {"lat": lat, "lng": lng}, "phone": phone})
+        db.victims.insert_one({"name": name, "location": {"lat": lat, "lng": lng}, "phone": phone})
     else:
-        df.firstResponders.insert_one({"name": name, "location": {"lat": lat, "lng": lng}, "phone": phone})
+        db.firstResponders.insert_one({"name": name, "location": {"lat": lat, "lng": lng}, "phone": phone})
 
 def addTestResponder( name, location, phone ):
     lat = location[0]
     lng = location[1]
-
     db.firstResponders.insert_one({"name": name, "location": {"lat": lat, "lng": lng}, "phone": phone})
-
-name = "Ranga"
-loc = (10, 50)
-phone = 7329978242
-#addTestResponder(name, loc, phone)
