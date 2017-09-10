@@ -4,11 +4,11 @@ function initMap() {
     zoom: 10,
     center: {lat: 29.4700179, lng: -81.4759017}
     });
-    return map
+	setMarkers(map)
 }
 
 function setMarkers(map) {
-    $.get("{{url_for('getAllVictims')}}"), function(data, status){
+    $.get("/getAllVictims", function(data, status){
 
     var image = {
         url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
@@ -30,8 +30,7 @@ function setMarkers(map) {
             zIndex: 1
         });
     }
-	};
+    });
 }
-var map = initMap()
-var func = setMarkers(map)
-setInterval(func, 5000);
+
+
