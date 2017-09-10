@@ -197,7 +197,7 @@ def __firestresponderaddress__(request_obj):
         number = request_obj['From']
         
         message = client.messages.create(to=str(number), from_="+18722282071",
-                                     body="Thanks for the address, you should be getting requests shortly.")
+                                     body="Thanks for the address. You should be getting requests shortly.")
         bod = request_obj['Body']
         geocode_rest = gmaps.geocode(str(bod))
 
