@@ -2,17 +2,12 @@ function initMap() {
     var map = new google.maps.Map(document.getElementById('map'),
     {
     zoom: 10,
-    center: {lat: 29.4700179, lng: -81.4759017}
+    center: {lat: 26.1454529, lng: -80.7284561}
     });
 	setMarkers(map);
 }
 
 function setMarkers(map) {
-	
-    var marker = new google.maps.Marker({
-            position: {lat: 29.4700179, lng: -81.4759017},
-            map: map,
-        });
     $.get("/getAllVictims", function(data, status){
 		console.log("data is" + data)
 
@@ -38,4 +33,24 @@ function setMarkers(map) {
     });
 }
 
+function getCurrLoc() {
+    if (navigator.geolocation) {
 
+        navigator.geolocation.getCurrentPosition(function(position) {
+        var pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+        };
+
+        console.log(pos)
+        var geocoder = new google.maps.Geocoder;
+        geocoder.geocode({'location': pos}, function(results, status) {
+        if (status === 'OK') {
+            if (results[0]) {
+                $("input[name=location]").val(results[0].formatted_address);
+            }}
+        
+        });
+    });
+    }
+}

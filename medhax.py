@@ -14,7 +14,7 @@ statetabledict = {}
 def __messagefirstresponder__(victimnumber,firstresponder):
         firstrespondernumber = firstresponder[1]['phone'] 
         mapsurl = 'https://www.google.com/maps/dir/?api=1&destination='+ str(firstresponder[1]['location']['lat']) + "," + str(firstresponder[1]['location']['lng'])
-        message = client.messages.create(to=str(firstrespondernumber), from_="+18722282071", body=statetabledict[victimnumber]['name'] +" needs help "+ str(round(firstresponder[0],2))  + " miles away " + "at " + mapsurl)
+        message = client.messages.create(to=str(firstrespondernumber), from_="+18722282071", body=statetabledict[victimnumber]['name'] +" needs help "+ str(round(firstresponder[0],2))  + " miles away " + "at: " + mapsurl)
 
 def checkPhone(phone):
     phonenum = []
@@ -160,7 +160,7 @@ def __firestresponderaddress__(request_obj):
         number = request_obj['From']
         
         message = client.messages.create(to=str(number), from_="+18722282071",
-                                     body="Thanks for the address, you should be getting requests shortly")
+                                     body="Thanks for the address, you should be getting requests shortly.")
         bod = request_obj['Body']
         geocode_rest = gmaps.geocode(str(bod))
 
