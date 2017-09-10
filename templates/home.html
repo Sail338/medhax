@@ -18,7 +18,6 @@
   <body>
 
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-      <a class="navbar-brand" href="#">Crowdsource Rescue Net</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -39,33 +38,43 @@
       </div>
     </nav>
 
-    <div class="container">
-      <div class="jumbotron">
-        <h1>Welcome to Crowdsource Rescue Net</h1>
-        <p class="lead">Every now and then, when diaster strikes, the number of victims greatly exceed the number of rescuers. There are simply not enough emergency rescue teams who can help those in peril situations all at once. For that reason, our mission is to create a network to encourge victims to reach out to our network. In doing so, our rescue volunteers can be notified of nearby victims and can jump to their aid. This network will open up a community in which strangers can be heros.</p>
-      </div>
+    <div>
+      <h1 class="container text-center">Welcome to Crowdsource Rescue Net</h1>
+      
       <div class="container">
-        <div class="row">
-          <div class="col-6">
-            <p class="lead">If you are a victim of a peril situation, register as a victim.</p>
-            <a class="btn btn-lg btn-primary" href="{{ url_for('victim') }}" role="button">Victim Form &raquo;</a>
-          </div>
-          <div class="col-6">
-            <p class="lead">If you would like to help out a fellow soul, register as a rescuer.</p>
-            <a class="btn btn-lg btn-primary" href="{{ url_for('rescuer') }}" role="button">Rescuer Form &raquo;</a>
-          </div>
+        <div class="text-center"> 
+          <button class="btn btn-primary" type="button" onclick="initMap()">Refresh Map</button>
         </div>
-      </div>
-      <hr>
-      <div class="container">
-        <h2>Rescue Net Map</h2>
+        <div id="map"></div>
         <div class="container">
             <p><img src='https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'>
             Victims are flagged</p>
         </div>
-        <div id="map"></div>
-        
-        <button class="btn btn-primary" onclick="initMap()">Refresh Map</button>
+        <hr>
+
+        <div id="welcome" class="container text-center">
+          <h2 class="subtitle">Mission</h2>
+          <p class="container">Every now and then, when diaster strikes, the number of victims greatly exceed the number of rescuers. There are simply not enough emergency rescue teams who can help those in peril situations all at once. For that reason, our mission is to create a network to encourge victims to reach out to our network. In doing so, our rescue volunteers can be notified of nearby victims and can jump to their aid. This network will open up a community in which strangers can be heros.</p>
+        </div>
+        <hr>
+        <div class="container text-center">
+          <h2 class="subtitle">Register Now</h2>
+          <div class="row">
+            <div class="col-6">
+              <p>If you are a victim of a peril situation, register as a victim.<br>
+              <a class="btn" href="{{ url_for('victim') }}" role="button">Victim Form &raquo;</a></p>
+            </div>
+            <div class="col-6">
+              <p>If you would like to help out a fellow soul, register as a rescuer.<br>
+              <a class="btn" href="{{ url_for('rescuer') }}" role="button">Rescuer Form &raquo;</a></p>
+            </div>
+          </div>
+        </div>
+
+      <footer class="footer text-center">
+        <p>&copy; 2017 PennApps XVI
+        <br>Presented by Rangaraj Tirimula, Srihari Shankar, and Alice Lu</p>
+      </footer>
 
       </div>
 
