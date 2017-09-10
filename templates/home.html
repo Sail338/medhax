@@ -12,7 +12,16 @@
     <link href="../static/css/map.css" rel="stylesheet">
     <link href="../static/css/navbar-top-fixed.css" rel="stylesheet">
 
-    <!-- jQuery -->
+    <!-- FaceBook SDK -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
 
   </head>
   <body>
@@ -28,11 +37,11 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="
-            {{ url_for('victim') }}">Victim Form</a>
+            {{ url_for('victim') }}">Help Form</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="
-            {{ url_for('rescuer') }}">Rescuer Form</a>
+            {{ url_for('rescuer') }}">Rescue Form</a>
           </li>
         </ul>
       </div>
@@ -46,34 +55,39 @@
           <button class="btn btn-primary" type="button" onclick="initMap()">Refresh Map</button>
         </div>
         <div id="map"></div>
-        <div class="container">
+        <div class="row">
+        <div class="col-6">
             <p><img src='https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'>
             Victims are flagged</p>
+        </div>
+
+        <div class="col-6 text-right fb-share-button" data-href="https://43860d8a.ngrok.io" data-layout="button_count"></div>
+
         </div>
         <hr>
 
         <div id="welcome" class="container text-center">
           <h2 class="subtitle">Mission</h2>
-          <p class="container">Every now and then, when diaster strikes, the number of victims greatly exceed the number of rescuers. There are simply not enough emergency rescue teams who can help those in peril situations all at once. For that reason, our mission is to create a network to encourge victims to reach out to our network. In doing so, our rescue volunteers can be notified of nearby victims and can jump to their aid. This network will open up a community in which strangers can be heros.</p>
+          <p class="container">Every now and then, when diaster strikes, the number of endangered people greatly exceed the number of rescuers. There are simply not enough emergency rescue teams who can help those in peril situations all at once. For that reason, our mission is to create a network to encourge victims to reach out to our network. In doing so, our rescue volunteers can be notified of nearby people in need and can jump to their aid. This network will open up a community in which strangers can be heros.</p>
         </div>
         <hr>
         <div class="container text-center">
           <h2 class="subtitle">Register Now</h2>
           <div class="row">
             <div class="col-6">
-              <p>If you are a victim of a peril situation, register as a victim.<br>
-              <a class="btn" href="{{ url_for('victim') }}" role="button">Victim Form &raquo;</a></p>
+              <p>If you are a victim of a peril situation, register as a person in need or text 'HELP' to <a>+1(872)228-2071</a>.<br>
+              <a class="btn" href="{{ url_for('victim') }}" role="button">Help Form &raquo;</a></p>
             </div>
             <div class="col-6">
-              <p>If you would like to help out a fellow soul, register as a rescuer.<br>
-              <a class="btn" href="{{ url_for('rescuer') }}" role="button">Rescuer Form &raquo;</a></p>
+              <p>If you would like to help out a fellow soul, register as a rescuer or text 'HELP' to <a>+1(872)228-2071.</a><br>
+              <a class="btn" href="{{ url_for('rescuer') }}" role="button">Rescue Form &raquo;</a></p>
             </div>
           </div>
         </div>
 
       <footer class="footer text-center">
         <p>&copy; 2017 PennApps XVI
-        <br>Presented by Rangaraj Tirimula, Srihari Shankar, and Alice Lu</p>
+        <br>Presented by Rangaraj Tirumala, Srihari Shankar, and Alice Lu</p>
       </footer>
 
       </div>
