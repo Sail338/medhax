@@ -44,14 +44,14 @@ def findNearestResponder( victimDictionary ):
 def getVictimLocations():
     victimLocations = []
     for item in db.victims.find():
-        loc = (item["location"]["lat"], item["location"]["lng"])
+        loc = {"lat":item["location"]["lat"], "lng":item["location"]["lng"]}
         victimLocations.append( loc )
     return victimLocations
 
 def getResponderLocations():
     responderLoc = []
     for item in db.firstResponders.find():
-        loc = (item["location"]["lat"], item["location"]["lng"])
+        loc = {"lat":item["location"]["lat"], "lng":item["location"]["lng"]}
         responderLoc.append( loc )
     return responderLoc
 

@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request, redirect
+from flask import Flask,render_template,request, redirect,jsonify
 from twilio.rest import Client
 from twilio.twiml.messaging_response import MessagingResponse,Message
 import dbUtils as dbutils
@@ -25,7 +25,8 @@ def checkPhone(phone):
 
 @app.route('/getAllVictims', methods=['GET'])
 def getAllVictims():
-    return dbutils.getVictimLocations()
+    ret = dbutils.getVictimLocations()
+    return jsonify(ret)
 
 @app.route('/')
 def index():
