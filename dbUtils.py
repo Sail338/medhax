@@ -1,5 +1,4 @@
 import pymongo
-import googlemaps
 from geopy.distance import vincenty
 
 
@@ -17,7 +16,8 @@ def addResponder( responderDictionary ):
         return
     db.firstResponders.insert_one(responderDictionary)
 
-def addVictim( victimDictionary ):  #adds victim to db and then retuns tuple of the distance to the nearest responder and their name
+# adds victim to db and then retuns tuple of the distance to the nearest responder and their name
+def addVictim( victimDictionary ):
     if "name" not in victimDictionary:
         return
     if "location" not in victimDictionary:
@@ -40,6 +40,7 @@ def findNearestResponder( victimDictionary ):
             closestResponder = (dist, item)
     return closestResponder
 
+#take responder object and returns distance to nearest victim and victim object
 def findNearestVictim( responderDictionary ):
     loc = (responderDictionary["location"]["lat"], responderDictionary["location"]["lng"])
     closestVictim = ()
