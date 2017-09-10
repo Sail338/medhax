@@ -113,6 +113,7 @@ def sms():
         
     return "done"
 def __updatenewadressFirstResponder__(request_obj):
+        number = request_obj['From']
         bod = request_obj['Body']
         geocode_rest = gmaps.geocode(str(bod))
         print(geocode_rest[0]['geometry'])
@@ -121,18 +122,18 @@ def __updatenewadressFirstResponder__(request_obj):
         statetabledict[number]['location']['lat'] = float(statetabledict[number]['location']['lat'])
         print ( statetabledict[number]['location']['lat'])
         statetabledict[number]['location']['lng'] = float(statetabledict[number]['location']['lng'])
-        victim = dbutils.findNearestVictim(firstresponder)
+        victim = dbutils.findNearestVictim(statetabledict[number])
         distance = victim[0]
         victim_data = victim[1]
-        if victim_data['number'] not in statetabledict:
-            statetabledict[victim_data['number']] = victim_data 
-        __messagefirstresponder__(victim_data['number'],(distance,statetabledict[number])) 
+        if victim_data['phone'] not in statetabledict:
+            statetabledict[victim_data['phone']] = victim_data 
+        __messagefirstresponder__(victim_data['phone'],(distance,statetabledict[number])) 
         
 
 def __askfornewaddressFirstResponder__(request_obj):
         number = request_obj['From']
         message = client.messages.create(to=str(number), from_="+18722282071",
-                                     body="Hi "  + name + ", please update your approximate address to continue helping people.")
+                                     body=" please update your approximate address to continue helping people.")
         statetabledict[number]['state']= 'waiting for address fr update'
 
 def __help__(request_obj):
