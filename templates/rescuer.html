@@ -25,10 +25,10 @@
             <a class="nav-link" href="/">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('victim') }}">Victim Form</a>
+            <a class="nav-link" href="{{ url_for('victim') }}">Help Form</a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="{{ url_for('rescuer') }}">Rescuer Form</a>
+            <a class="nav-link" href="{{ url_for('rescuer') }}">Rescue Form</a>
           </li>
         </ul>
       </div>
@@ -37,7 +37,7 @@
     <div class="container">
 
       <form class="form-signup" action="/submitRescuer" method="POST">
-        <h2 class="form-signup-heading">Register as Rescuer</h2>
+        <h2 class="form-signup-heading">Register to Help</h2>
         <label for="phone" class="sr-only">Name</label>
         <input type="text" id="name" name="name" class="form-control" placeholder="Name" required autofocus>
         <label for="phone" class="sr-only">Phone Number</label>
