@@ -67,6 +67,9 @@ def getResponderLocations():
         responderLoc.append( loc )
     return responderLoc
 
+def deleteVictim( name ):
+    db.victims.delete_one({"name": name})
+
 def addPerson( name, lat, lng, phone, isVictim ):   #requires boolean isVictim to be true for victim insert and false for responder insert
     if isVictim:
         db.victims.insert_one({"name": name, "location": {"lat": lat, "lng": lng}, "phone": phone})
