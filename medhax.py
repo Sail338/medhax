@@ -5,9 +5,9 @@ import dbUtils as dbutils
 import googlemaps
 app = Flask(__name__)
 
-gmaps = googlemaps.Client(key='AIzaSyAjkZv3gEGBYTcwv7K4ePX1ZIXTMRadk1c')
-sid = "AC8632c0885d33bcf38b8eaa6cc6a33f87"
-authtoken = "fba3f82a812fc559b22dd979c7351b9c"
+gmaps = googlemaps.Client(key='key')
+sid = "sid"
+authtoken = "authtoken"
 client = Client(sid, authtoken)
 statetabledict = {}
 
